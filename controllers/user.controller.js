@@ -83,6 +83,23 @@ try {
                 message: "Invalid username or password",  
             });  
         }    
+ 
+        const token = jwt.sign(
+            { id: user._id, username: user.username },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+       
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            token,
+            user: {
+                id: user._id,
+                username: user.username
+            }
+        });
 
     } catch (error) {  
         // Log errors and send an internal server error response  
